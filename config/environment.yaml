@@ -1,0 +1,25 @@
+user:
+  jay:
+    username: 周杰伦
+    password: 123456
+  william:
+    username: william
+    password: 123456
+  failure:
+    username: william
+    password: william
+
+
+url: http://www.tcpjwtester.top
+
+mysql:
+  db: trading_system
+  host: 192.168.1.109
+  password: william
+  port: 3306
+  user: root
+
+redis:
+  host: 192.168.1.109
+  port: 6379
+  db: 0

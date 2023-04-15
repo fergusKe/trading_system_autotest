@@ -1,0 +1,12 @@
+git add  将文件加入到暂存区
+git commit -m  将暂存区的文件提交到本地仓库 一般会带上-m参数来说明本次改动的意图
+git push  将本地仓库的代码推送到远程仓库中
+
+git status  查看当前项目中文件变更的情况
+git diff  查看修改文件的具体内容 如查看git_test.py ：  git diff git_test.py
+git branch test1  新建一个分支
+git branch      查看当前分支
+
+git checkout test1      切换到test1分支
+git pull        将远程分支上的代码拉到本地
+git clone       将本地没有的代码克隆到本地仓库

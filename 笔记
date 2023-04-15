@@ -1,0 +1,166 @@
+Python读取文件：
+1.open
+    # file = open(r"D:\code\trading_system_autotest\config\environment.yaml", encoding="utf-8")
+    # try:
+    #     a = file.read()
+    #     print(a)
+    # except Exception as e:
+    #     print(e)
+    # finally:
+    #     file.close()
+2.with open
+    with open(r"D:\code\trading_system_autotest\config\environment.yaml", "r",
+          encoding="utf-8") as file:
+    a = file.read()
+    print(a)
+
+    w:写模式，无法读取文件，如果用w模式打开一个已经存在的文件，会清空以前的文件内容
+    w+：读写内容，只要有w，就会清空原来的文件
+    r: 读模式，只能读，无法写，并且文件必须存在
+    r+: 读写模式，只要有r，文件必须存在
+    a: 追加模式，可以写，会在文件末尾添加内容
+    rb+,wb+，ab+: 二进制模式打开或者读取
+
+"""
+系统分割符
+Args:
+    path:路径列表，类型为数组
+    add_sep_before:是否需要在拼接的路径前加一个分隔符
+    add_sep_after:是否需要在拼接的路径后加一个分隔符
+Returns:
+"""
+
+# 设置Chrome窗口大小,设置为1920*1080
+options = webdriver.ChromeOptions()
+options.add_argument("window-size=1920,1080")
+# 去除“Chrome正受到自动检测软件的控制”的提示
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# 解决selenium无法访问https的问题
+options.add_argument("--ignore-certificate-errors")
+#允许忽略localhost上的TLS/SSL错误
+options.add_argument("--allow-insecure-localhost")
+#设置为无痕模式
+options.add_argument("--incognito")
+#设置为无头模式
+options.add_argument("--headless")
+#解决卡顿
+options.add_argument("--disable-gpu")#禁用gpu硬件加速
+options.add_argument("--no-sandbox")#禁用sandbox
+options.add_argument("--disable-dev-shm-usage")
+
+# 删除所有cookies
+driver.delete_all_cookies()
+
+
+pytest常用参数：
+参数              用途
+-m              只运行被标记的测试用例
+-k              模糊匹配文件名，类名，方法名，执行匹配到的方法
+-s              可以再终端中打印出我买的调试信息
+-v              显示执行详细信息
+--collect-only  只收集用例，不执行
+-q              显示简洁的执行信息
+
+pytest命令指示符：
+-m用法：
+    运行test_pytest_m.py:pytest testcases/test_pytest_m.py
+    运行test_pytest_m.py内的baidu:
+        方法1：pytest testcases/test_pytest_m.py::TestPytestMClass::test_open_baidu
+        方法2：加标记@pytest.mark.baidu   pytest -m baidu
+    先打开baidu后打开bing: pytest -m "baidu or bing"
+    执行除了baidu以外的测试用例: pytest testcases/test_pytest_m.py -m "not baidu"
+    执行baidu不执行bing忽略google： pytest testcases/test_pytest_m.py -m "baidu and not bing"
+-k用法：
+     先搜索文件名：pytest -k pytest
+     搜索类名：pytest -k class
+     搜索方法名：pytest -k open
+-s用法：
+    打印调试信息：pytest -s -m baidu
+-v用法：
+    显示执行详细信息：pytest -s -v -m baidu
+--collect-only用法：
+    收集用例，不执行：pytest --collect-only
+-q用法：
+    显示简洁的执行信息： pytest -s -q -m baidu
+
+
+pytest断言：
+使用“==”，“！=”，“<”,">",">=","<="
+    ==:表示等于
+    !=:表示不等于
+使用in和not in来测试包含或不包含
+使用TRUE或false
+
+Fixture:
+fixture的用途：包裹测试用例
+定义fixture:@pytest.fixture()
+使用fixture:fixture名作为用例的参数
+
+fixture的作用范围:
+1.session
+2.class
+3.moudle
+4.function(默认)
+
+conftest.py特性：
+1.conftest可以跨文件调用
+2.conftest的文件名是固定的
+3.就近原则
+    同级目录如果有conftest就使用同级目录的，如果没有就去上一级去找最近的conftest
+4.conftest不能被其他文件导入
+5.conftest可以设置多个pytest内置的钩子函数
+
+pytest-xdist:
+使用方法： pytest -n 3    #3表示并发数
+根据当前电脑CPU个数自己来设置并发数：pytest -n auto
+按照同一个文件进行，所有的测试文件在一个进程中执行：pytest -n auto --dist=loadscope
+
+测试用例失败重跑插件：pytest-rerunfailures
+用法：pytest -s testcases/test_rerun.py --reruns 5
+pytest -s testcases/test_rerun.py --reruns 5 --reruns-delay 1  失败重跑间隔为1
+
+
+pytest断言插件：pytest-assume
+用法：pytest testcases/test_assert.py
+    import pytest
+    from pytest_assume.plugin import assume
+    class TestAssert:
+        def test_assert(self):
+            with assume: assert "william" in "UI autotest"
+            pytest.assume(1 + 1 == 3)
+            assert 1 + 1 == 2
+            print("over")
+
+pytest报告插件：pytest-html
+用法：pytest -s -q testcases/test_switch_window_handle.py --html=report.html
+将测试报告和样式放在一起：pytest -s -q testcases/test_switch_window_handle.py --html=report.html --self-contained-html
+
+pytest配置文件pytest.ini
+    [pytest]
+    addopts = -s -q -n auto --html=report.html
+    #指定默认的测试目录：
+    testpaths = testcases
+    #设置按照名称搜索测试用例
+    python_files = test *.py
+    python_classes = Test*
+    python_functions = test*
+    #设置日志
+    log_cli =True
+    log_date_format = %y-%m-%d %H-%M-%S
+    log_level = DEBUG
+    log_format = %(asctime)s - %(module)s - %(funcName)s - %(lineno)d - %(lovelname)s - %(message)s
+    log_file = test.log
+
+使用allure生成测试报告的方法：pytest testcases/test_switch_window_handle.py --alluredir=UIreport
+查看测试报告:
+    1.allure generate UIreport -o UIreport/report
+    2.allure serve UIreport
+
+自动化测试使用Jenkins
+1.拉去git仓库的最新自动化测试代码
+2.执行自动化测试
+3.给出测试报告
+4.定时执行自动化测试
+
+
+带带弟弟OCR通用验证码：pip3 install ddddocr==1.4.3
